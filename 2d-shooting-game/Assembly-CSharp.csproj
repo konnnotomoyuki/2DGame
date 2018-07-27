@@ -69,13 +69,14 @@
     <Compile Include="Assets\_Completed-Assets\Scripts\Explosion.cs" />
     <Compile Include="Assets\_Completed-Assets\Scripts\Manager.cs" />
     <Compile Include="Assets\_Completed-Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\_Completed-Assets\Scripts\PlayerRest.cs" />
     <Compile Include="Assets\_Completed-Assets\Scripts\Score.cs" />
     <Compile Include="Assets\_Completed-Assets\Scripts\Spaceship.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/Tomoyuki/Downloads/2d-shooting-game/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Tomoyuki/Downloads/2DGame-master/2d-shooting-game/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Tomoyuki/Downloads/2d-shooting-game/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Tomoyuki/Downloads/2DGame-master/2d-shooting-game/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

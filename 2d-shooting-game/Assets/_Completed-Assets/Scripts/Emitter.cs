@@ -26,7 +26,6 @@ public class Emitter : MonoBehaviour
 
         while (true)
         {
-
             // タイトル表示中は待機
             while (manager.IsPlaying() == false)
             {

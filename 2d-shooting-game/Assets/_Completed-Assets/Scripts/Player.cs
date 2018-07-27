@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Threading;
 using System.Collections;
 
 public class Player : MonoBehaviour
@@ -6,22 +7,44 @@ public class Player : MonoBehaviour
     // Spaceshipコンポーネント
     Spaceship spaceship;
 
+    // Renderコンポーネント
+    Renderer renderer;
+
+    public int intPlayerNum = 3;
+    
+    bool blnStopMove = false;
+    bool blnStopShot = false;
+
     IEnumerator Start()
     {
         // Spaceshipコンポーネントを取得
         spaceship = GetComponent<Spaceship>();
 
+        renderer = GetComponent<Renderer>();
+
         while (true)
         {
+            if (blnStopShot == false)
+            {
+                // 弾をプレイヤーと同じ位置/角度で作成
+                spaceship.Shot(transform);
 
-            // 弾をプレイヤーと同じ位置/角度で作成
-            spaceship.Shot(transform);
+                // ショット音を鳴らす
+                GetComponent<AudioSource>().Play();
 
-            // ショット音を鳴らす
-            GetComponent<AudioSource>().Play();
+                // ショットの発射間隔
+                yield return new WaitForSeconds(spaceship.shotDelay);
+            }
+            else if (blnStopShot == true)
+            {
+                int i = 0;
+                blnStopShot = false;
 
-            // shotDelay秒待つ
-            yield return new WaitForSeconds(spaceship.shotDelay);
+                while (i != 5000000)
+                {
+                    i++;
+                }
+            }
         }
     }
 
@@ -38,12 +61,22 @@ public class Player : MonoBehaviour
 
         // 移動の制限
         Move(direction);
-
     }
 
     // 機体の移動
     void Move(Vector2 direction)
     {
+        if (blnStopMove == true)
+        {
+            blnStopMove = false;
+            int i = 0;
+
+            while (i != 5000000)
+            {
+                i++;
+            }
+        }
+
         // 画面左下のワールド座標をビューポートから取得
         Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
 
@@ -80,14 +113,48 @@ public class Player : MonoBehaviour
         // レイヤー名がBullet (Enemy)またはEnemyの場合は爆発
         if (layerName == "Bullet (Enemy)" || layerName == "Enemy")
         {
-            // Managerコンポーネントをシーン内から探して取得し、GameOverメソッドを呼び出す
-            FindObjectOfType<Manager>().GameOver();
+            // 残機を減らす
+            intPlayerNum--;
 
             // 爆発する
             spaceship.Explosion();
 
-            // プレイヤーを削除
-            Destroy(gameObject);
+            if (intPlayerNum == 0)
+            {
+                // プレイヤーを削除
+                Destroy(gameObject);
+
+                // Managerコンポーネントをシーン内から探して取得し、GameOverメソッドを呼び出す
+                FindObjectOfType<Manager>().GameOver();
+            }
+            else if(intPlayerNum != 0)
+            {
+                blnStopMove = true;
+                blnStopShot = true;
+                Damage();
+            }
         }
+    }
+
+    IEnumerator Damage()
+    {
+        //レイヤーをPlayerDamageに変更
+        gameObject.layer = LayerMask.NameToLayer("PlayerRest");
+        //while文を10回ループ
+        int count = 10;
+        while (count > 0)
+        {
+            //透明にする
+            renderer.material.color = new Color(1, 1, 1, 0);
+            //0.05秒待つ
+            yield return new WaitForSeconds(0.05f);
+            //元に戻す
+            renderer.material.color = new Color(1, 1, 1, 1);
+            //0.05秒待つ
+            yield return new WaitForSeconds(0.05f);
+            count--;
+        }
+        //レイヤーをPlayerに戻す
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 }

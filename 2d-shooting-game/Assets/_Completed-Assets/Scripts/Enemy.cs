@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Start()
     {
-
         // Spaceshipコンポーネントを取得
         spaceship = GetComponent<Spaceship>();
 
@@ -29,11 +28,9 @@ public class Enemy : MonoBehaviour
 
         while (true)
         {
-
             // 子要素を全て取得する
             for (int i = 0; i < transform.childCount; i++)
             {
-
                 Transform shotPosition = transform.GetChild(i);
 
                 // ShotPositionの位置/角度で弾を撃つ
@@ -82,13 +79,10 @@ public class Enemy : MonoBehaviour
 
             // エネミーの削除
             Destroy(gameObject);
-
         }
         else
         {
-
             spaceship.GetAnimator().SetTrigger("Damage");
-
         }
     }
 }
